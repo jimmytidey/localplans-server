@@ -7,6 +7,8 @@ import "./App.css";
 function App() {
   const [fetchQuery, setQuery] = useState("");
   const [fetchComparisonResult, setComparisonResult] = useState("");
+  const [fetchLPA1, setLPA1] = useState("");
+  const [fetchLPA2, setLPA2] = useState("");
 
   return (
     <>
@@ -21,6 +23,10 @@ function App() {
           fetchQuery={fetchQuery}
           setQuery={setQuery}
           setComparisonResult={setComparisonResult}
+          fetchLPA1={fetchLPA1}
+          setLPA1={setLPA1}
+          fetchLPA2={fetchLPA2}
+          setLPA2={setLPA2}
         ></QueryBox>
         <Results fetchComparisonResult={fetchComparisonResult}></Results>
       </div>

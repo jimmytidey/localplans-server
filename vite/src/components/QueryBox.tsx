@@ -4,13 +4,17 @@ interface Props {
   fetchQuery: string;
   setQuery: Function;
   setComparisonResult: Function;
+  fetchLPA1: string;
+  setLPA1: Function;
+  fetchLPA2: string;
+  setLPA2: Function;
 }
 
 const QueryBox = ({ fetchQuery, setQuery, setComparisonResult }: Props) => {
   const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const getLtlaList = async () => {
+    const submit = async () => {
       try {
         setComparisonResult("Loading...");
 
@@ -24,8 +28,17 @@ const QueryBox = ({ fetchQuery, setQuery, setComparisonResult }: Props) => {
         setComparisonResult("Error");
       }
     };
-    getLtlaList();
+
+    submit();
   };
+
+  const options = [
+    { label: "Soutwark", value: "fruit" },
+
+    { label: "", value: "vegetable" },
+
+    { label: "Meat", value: "meat" },
+  ];
 
   return (
     <form onSubmit={handleSubmit}>
@@ -33,6 +46,30 @@ const QueryBox = ({ fetchQuery, setQuery, setComparisonResult }: Props) => {
         onChange={(e) => setQuery(e.target.value)}
         value={fetchQuery}
       ></input>
+      <div onChange={onChangeValue}>
+        <input
+          type="radio"
+          value="Male"
+          name="gender"
+          checked={gender === "Male"}
+        />{" "}
+        Male
+        <input
+          type="radio"
+          value="Female"
+          name="gender"
+          checked={gender === "Female"}
+        />{" "}
+        Female
+        <input
+          type="radio"
+          value="Other"
+          name="gender"
+          checked={gender === "Other"}
+        />{" "}
+        Other
+      </div>
+
       <button type="submit">Click to submit</button>
     </form>
   );
