@@ -10,7 +10,9 @@ CORS(app, resources={r"/compare/": {"origins": "*"}})
 @app.route('/compare/', methods=['GET'])
 def sample():
     topic = request.args.get('topic')
-    response = compare_lpas(topic)
+    lpa1 = request.args.get('lpa1')
+    lpa2 = request.args.get('lpa2')
+    response = compare_lpas(topic, lpa1, lpa2)
 
     return response
 

@@ -11,3 +11,8 @@
   -webkit-text-size-adjust: 100%;
 }
 
+.description-final-para {
+  padding-bottom: 1em;
+    margin-bottom: 1em;
+    border-bottom: 1px solid black;
+}

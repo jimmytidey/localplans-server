@@ -4,7 +4,7 @@ from langchain.embeddings import SentenceTransformerEmbeddings
 from helpers import pinecone_connect
 
 
-def compare_lpas(topic, lpa_1='Tamworth_Borough_Council', lpa_2='Northumberland_County_Council'):
+def compare_lpas(topic, lpa_1, lpa_2):
 
     index = pinecone_connect()
 
@@ -28,8 +28,13 @@ def compare_lpas(topic, lpa_1='Tamworth_Borough_Council', lpa_2='Northumberland_
 
     lpa_1_results_string = ''
     for match in lpa_1_results['matches'][0:8]:
-
-        lpa_1_results_string += match['metadata']['text'] + '\n'
+        print('-------')
+        print(match['score'])
+        print(match['metadata']['text'])
+        if (match['score'] > 0.3):
+            lpa_1_results_string += match['metadata']['text'] + '\n'
+        else:
+            lpa_1_results_string += f'{lpa_1} does not have a detailed policy on {topic}' + '\n'
 
     lpa_2_results = index.query(
         vector=query,
@@ -42,8 +47,13 @@ def compare_lpas(topic, lpa_1='Tamworth_Borough_Council', lpa_2='Northumberland_
 
     lpa_2_results_string = ''
     for match in lpa_2_results['matches'][0:8]:
-
-        lpa_2_results_string += match['metadata']['text'] + '\n'
+        print('-------')
+        print(match['score'])
+        print(match['metadata']['text'])
+        if (match['score'] > 0.3):
+            lpa_2_results_string += match['metadata']['text'] + '\n'
+        else:
+            lpa_2_results_string += f'{lpa_2} does not have a detailed policy on {topic}' + '\n'
 
     context = '''
     Context from {lpa_1}: 
@@ -63,10 +73,10 @@ def compare_lpas(topic, lpa_1='Tamworth_Borough_Council', lpa_2='Northumberland_
 
     print(context)
 
-    llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=1.5)
+    llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0.5)
 
     query_string = '''
-    Compare the way the following 2 areas approach to the topic of {topic}, listing the three biggest differences. 
+    Compare the way the following two areas approach to the topic of {topic}, listing the differences. 
 
     {context} 
     '''. format(context=context, topic=topic)
